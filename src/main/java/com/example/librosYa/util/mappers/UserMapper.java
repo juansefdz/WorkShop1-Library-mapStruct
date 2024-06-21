@@ -10,10 +10,12 @@ import java.util.List;
 public interface UserMapper {
 
 
-    DtoUser toGetDTO(UserEntity user);
+    DtoUser toGetDTO(UserEntity user, @Context ReservationMapper reservationMapper, @Context LoanMapper loanMapper);
 
     @InheritInverseConfiguration
-    UserEntity toEntity(DtoUser getUser);
-    List<DtoUser> toGetUserList (List<UserEntity> userList);
-    List<UserEntity> toEntityList(List<DtoUser> userRequestList);
+    UserEntity toEntity(DtoUser getUser, @Context ReservationMapper reservationMapper, @Context LoanMapper loanMapper);
+
+    List<DtoUser> toGetUserList(List<UserEntity> userList, @Context ReservationMapper reservationMapper, @Context LoanMapper loanMapper);
+
+    List<UserEntity> toEntityList(List<DtoUser> userRequestList, @Context ReservationMapper reservationMapper, @Context LoanMapper loanMapper);
 }

@@ -9,12 +9,14 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {UserMapper.class, BookMapper.class})
 public interface LoanMapper {
 
-
-    DtoLoan toGetDTO(Loan loan);
+    DtoLoan toGetDTO(Loan loan, @Context UserMapper userMapper, @Context BookMapper bookMapper);
 
     @InheritInverseConfiguration
-    Loan toEntity(DtoLoan loanRequest);
-    List<DtoLoan> toGetLoanList(List<Loan> loanList);
-    List<Loan> toEntityLoanList(List<DtoLoan> loanRequestList);
+    Loan toEntity(DtoLoan loanRequest, @Context UserMapper userMapper, @Context BookMapper bookMapper);
+
+    List<DtoLoan> toGetLoanList(List<Loan> loanList, @Context UserMapper userMapper, @Context BookMapper bookMapper);
+
+    List<Loan> toEntityLoanList(List<DtoLoan> loanRequestList, @Context UserMapper userMapper, @Context BookMapper bookMapper);
 }
+
 
