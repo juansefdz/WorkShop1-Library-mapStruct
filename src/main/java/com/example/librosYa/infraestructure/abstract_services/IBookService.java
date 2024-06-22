@@ -1,6 +1,9 @@
 package com.example.librosYa.infraestructure.abstract_services;
 
-import com.example.librosYa.api.dto.DtoBook;
+import com.example.librosYa.application.dto.request.BookRequest;
+import com.example.librosYa.application.dto.response.BookResponse;
+import org.springframework.stereotype.Service;
 
-public interface IBookService extends CRUDService <DtoBook,Long>{
+@Service
+public interface IBookService extends CRUDService <BookRequest, BookResponse,Long>{
 }

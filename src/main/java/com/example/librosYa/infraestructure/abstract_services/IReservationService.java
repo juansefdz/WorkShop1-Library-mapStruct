@@ -1,6 +1,9 @@
 package com.example.librosYa.infraestructure.abstract_services;
 
-import com.example.librosYa.api.dto.DtoReservation;
+import com.example.librosYa.application.dto.request.ReservationRequest;
+import com.example.librosYa.application.dto.response.ReservationResponse;
+import org.springframework.stereotype.Service;
 
-public interface IReservationService extends CRUDService<DtoReservation,Long>{
+@Service
+public interface IReservationService extends CRUDService<ReservationRequest, ReservationResponse,Long>{
 }
