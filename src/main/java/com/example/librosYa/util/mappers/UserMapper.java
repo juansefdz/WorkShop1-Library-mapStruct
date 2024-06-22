@@ -6,16 +6,16 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {ReservationMapper.class,LoanMapper.class})
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
-
-
-    DtoUser toGetDTO(UserEntity user, @Context ReservationMapper reservationMapper, @Context LoanMapper loanMapper);
+    @Mapping(target = "books",ignore = true)
+    @Mapping(target = "loans",ignore = true)
+    DtoUser toGetDTO(UserEntity user);
 
     @InheritInverseConfiguration
-    UserEntity toEntity(DtoUser getUser, @Context ReservationMapper reservationMapper, @Context LoanMapper loanMapper);
+    UserEntity toEntity(DtoUser getUser);
 
-    List<DtoUser> toGetUserList(List<UserEntity> userList, @Context ReservationMapper reservationMapper, @Context LoanMapper loanMapper);
+    List<DtoUser> toGetUserList(List<UserEntity> userList);
 
-    List<UserEntity> toEntityList(List<DtoUser> userRequestList, @Context ReservationMapper reservationMapper, @Context LoanMapper loanMapper);
+    List<UserEntity> toEntityList(List<DtoUser> userRequestList);
 }

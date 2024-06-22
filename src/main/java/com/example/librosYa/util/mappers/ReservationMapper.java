@@ -9,16 +9,16 @@ import org.mapstruct.MappingConstants;
 
 import java.util.List;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {UserMapper.class, BookMapper.class})
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ReservationMapper {
 
-    DtoReservation toGetDTO(Reservation reservation, @Context UserMapper userMapper, @Context BookMapper bookMapper);
+    DtoReservation toGetDTO(Reservation reservation);
 
     @InheritInverseConfiguration
-    Reservation toEntity(DtoReservation getReservation, @Context UserMapper userMapper, @Context BookMapper bookMapper);
+    Reservation toEntity(DtoReservation getReservation);
 
-    List<DtoReservation> toGetReservationList(List<Reservation> reservationList, @Context UserMapper userMapper, @Context BookMapper bookMapper);
+    List<DtoReservation> toGetReservationList(List<Reservation> reservationList);
 
-    List<Reservation> toEntityList(List<DtoReservation> reservationRequestList, @Context UserMapper userMapper, @Context BookMapper bookMapper);
+    List<Reservation> toEntityList(List<DtoReservation> reservationRequestList);
 }
 
