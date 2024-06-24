@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 public class UserRequest {
 
-
+    private long idUser;
     @Schema(
             description = "Name of the user",
             example = "john_doe")
@@ -50,7 +50,7 @@ public class UserRequest {
     private String fullName;
     @Schema(
             description = "Rol of the user",
-            example = "ADMIN - ESTUDENT - TEACHER")                                               // SWAGGER
+            example = "STUDENT")                                               // SWAGGER
     @NotBlank(
             message = "The role is required")                                   // validation
     @Size(

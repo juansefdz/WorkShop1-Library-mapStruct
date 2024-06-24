@@ -2,7 +2,6 @@ package com.example.librosYa.application.controller;
 
 import com.example.librosYa.application.dto.request.UserRequest;
 import com.example.librosYa.application.dto.response.UserResponse;
-import com.example.librosYa.application.mappers.UserMapper;
 import com.example.librosYa.infraestructure.abstract_services.IUserService;
 import com.example.librosYa.util.exceptions.ResourceNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,14 +9,14 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "/users")
 @AllArgsConstructor
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserEntityController {
 
     private final IUserService iUserService;
-    private final UserMapper userMapper;
 
     /**
      * GET ALL Users
@@ -65,12 +63,12 @@ public class UserEntityController {
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @GetMapping(path = "/{user_id}")
+    @GetMapping(path = "/{userId}")
     public ResponseEntity<UserResponse> getById(
             @Parameter(description = "User ID", example = "1")
-            @PathVariable Long user_id) {
+            @PathVariable Long userId) {
 
-        UserResponse user = iUserService.getById(user_id);
+        UserResponse user = iUserService.getById(userId);
         if (user == null) {
             throw new ResourceNotFoundException("User not found");
         }
@@ -91,8 +89,8 @@ public class UserEntityController {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PostMapping(path = "/create")
-    public ResponseEntity<UserResponse> create(@Validated @RequestBody UserRequest request) {
+    @PostMapping
+    public ResponseEntity<UserResponse> create(@Valid @RequestBody UserRequest request) {
         UserResponse createdUser = iUserService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
@@ -112,11 +110,11 @@ public class UserEntityController {
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @DeleteMapping(path = "/{user_id}")
+    @DeleteMapping(path = "/{userId}")
     public ResponseEntity<Void> delete(
             @Parameter(description = "User ID", example = "1")
-            @PathVariable Long user_id) {
-        iUserService.delete(user_id);
+            @PathVariable Long userId) {
+        iUserService.delete(userId);
         return ResponseEntity.noContent().build();
     }
 
@@ -135,12 +133,12 @@ public class UserEntityController {
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PutMapping(path = "/{user_id}")
+    @PutMapping(path = "/{userId}")
     public ResponseEntity<UserResponse> update(
-            @Validated @RequestBody UserRequest request,
+            @Valid @RequestBody UserRequest request,
             @Parameter(description = "User ID", example = "1")
-            @PathVariable Long user_id) {
-        UserResponse updatedUser = iUserService.update(request, user_id);
+            @PathVariable Long userId) {
+        UserResponse updatedUser = iUserService.update(request, userId);
         return ResponseEntity.ok(updatedUser);
     }
 }
