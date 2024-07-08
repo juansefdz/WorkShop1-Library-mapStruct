@@ -2,6 +2,7 @@ package com.example.librosYa.application.controller;
 
 import com.example.librosYa.application.dto.request.UserRequest;
 import com.example.librosYa.application.dto.response.UserResponse;
+import com.example.librosYa.application.mappers.User.UserMapper;
 import com.example.librosYa.infraestructure.abstract_services.IUserService;
 import com.example.librosYa.util.exceptions.ResourceNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,12 +12,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping(path = "/users")
 @AllArgsConstructor
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserEntityController {
 
     private final IUserService iUserService;
+    private final UserMapper userMapper;
 
     /**
      * GET ALL Users
@@ -40,12 +42,10 @@ public class UserEntityController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping
-    public ResponseEntity<Page<UserResponse>> getAll(
-            @Parameter(description = "Page number (default: 1)", example = "1") // SWAGGER
-            @RequestParam(defaultValue = "1") int page,
-            @Parameter(description = "Number of items per page (default: 10)", example = "10") // SWAGGER
-            @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(this.iUserService.getAll(page - 1, size));
+    public Page<UserResponse> getAll(
+            @Parameter(description = "Pageable object specifying the page requested", example = "1") // Swagger
+            Pageable pageable) {
+        return iUserService.getAll(pageable);
     }
 
     /**
@@ -68,10 +68,9 @@ public class UserEntityController {
             @Parameter(description = "User ID", example = "1")
             @PathVariable Long userId) {
 
-        UserResponse user = iUserService.getById(userId);
-        if (user == null) {
-            throw new ResourceNotFoundException("User not found");
-        }
+        UserResponse user = iUserService.getById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+
         return ResponseEntity.ok(user);
     }
 
@@ -90,7 +89,8 @@ public class UserEntityController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PostMapping
-    public ResponseEntity<UserResponse> create(@Valid @RequestBody UserRequest request) {
+    public ResponseEntity<UserResponse> create(
+            @Valid @RequestBody UserRequest request) {
         UserResponse createdUser = iUserService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
@@ -138,7 +138,7 @@ public class UserEntityController {
             @Valid @RequestBody UserRequest request,
             @Parameter(description = "User ID", example = "1")
             @PathVariable Long userId) {
-        UserResponse updatedUser = iUserService.update(request, userId);
+        UserResponse updatedUser = iUserService.update(userId, request);
         return ResponseEntity.ok(updatedUser);
     }
 }

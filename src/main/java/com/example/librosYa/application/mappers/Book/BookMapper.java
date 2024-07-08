@@ -1,18 +1,20 @@
-package com.example.librosYa.application.mappers;
+package com.example.librosYa.application.mappers.Book;
 
 import com.example.librosYa.application.dto.request.BookRequest;
+
 import com.example.librosYa.application.dto.response.BookResponse;
 import com.example.librosYa.domain.entities.BookEntity;
+
 import org.mapstruct.*;
 
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface BookMapper {
-    BookResponse toGetDTO(BookEntity book);
 
+    BookEntity toEntity (BookRequest bookRequest);
     @InheritInverseConfiguration
-    BookEntity toEntity(BookRequest request);
+    BookResponse toResponse(BookEntity book);
 
     List<BookResponse> toGetBookList(List<BookEntity> bookList);
     List<BookEntity> toEntityList(List<BookRequest> bookRequestList);

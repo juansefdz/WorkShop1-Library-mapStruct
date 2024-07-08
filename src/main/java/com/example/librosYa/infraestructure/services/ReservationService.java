@@ -2,15 +2,20 @@ package com.example.librosYa.infraestructure.services;
 
 import com.example.librosYa.application.dto.request.ReservationRequest;
 import com.example.librosYa.application.dto.response.ReservationResponse;
-import com.example.librosYa.application.mappers.ReservationMapper;
+import com.example.librosYa.application.dto.response.UserResponse;
+import com.example.librosYa.application.mappers.Reservation.ReservationMapper;
 import com.example.librosYa.domain.entities.Reservation;
+import com.example.librosYa.domain.entities.UserEntity;
 import com.example.librosYa.domain.repositories.ReservationRepository;
-import com.example.librosYa.infraestructure.abstract_services.CRUDService;
 import com.example.librosYa.infraestructure.abstract_services.IReservationService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReservationService implements IReservationService {
@@ -22,36 +27,28 @@ public class ReservationService implements IReservationService {
         this.reservationRepository = reservationRepository;
         this.reservationMapper = reservationMapper;
     }
+    @Override
+    public Page<ReservationResponse> getAll(Pageable pageable) {
+        return reservationRepository.findAll(pageable).map(reservationMapper::toResponse);
+    }
+
 
     @Override
-    public Page<ReservationResponse> getAll(int page, int size) {
-        if (page < 0) page = 0;
-        PageRequest pagination = PageRequest.of(page, size);
-        return reservationRepository.findAll(pagination).map(reservationMapper::toGetDTO);
+    public Optional<ReservationResponse> getById(Long id) {
+        Optional<Reservation> reservationOptional = reservationRepository.findById(id);
+        return reservationOptional.map(reservationMapper::toResponse);
     }
 
     @Override
-    public ReservationResponse getById(Long id) {
-        Reservation reservationEntity = find(id);
-        return reservationMapper.toGetDTO(reservationEntity);
-    }
-
-    @Override
+    @Transactional
     public ReservationResponse create(ReservationRequest reservationRequest) {
-        Reservation reservationEntity = reservationMapper.toEntity(reservationRequest);
-        Reservation savedReservation = reservationRepository.save(reservationEntity);
-        return reservationMapper.toGetDTO(savedReservation);
+        Reservation reservation = reservationMapper.toEntity(reservationRequest);
+        Reservation savedReservation = reservationRepository.save(reservation);
+        return reservationMapper.toResponse(savedReservation);
     }
 
     @Override
-    public ReservationResponse update(ReservationRequest reservationRequest, Long id) {
-        Reservation reservationEntity = find(id);
-        reservationMapper.updateEntityFromDto(reservationRequest, reservationEntity);
-        Reservation updatedReservation = reservationRepository.save(reservationEntity);
-        return reservationMapper.toGetDTO(updatedReservation);
-    }
-
-    @Override
+    @Transactional
     public void delete(Long id) {
         Reservation reservationEntity = find(id);
         reservationRepository.delete(reservationEntity);
@@ -61,4 +58,15 @@ public class ReservationService implements IReservationService {
         return reservationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Reservation not found with id: " + id));
     }
+
+    @Override
+    @Transactional
+    public ReservationResponse update(Long id, ReservationRequest reservationRequest) {
+        Reservation reservationEntity = find(id);
+        reservationMapper.updateEntityFromDto(reservationRequest, reservationEntity);
+        Reservation updatedReservationEntity = reservationRepository.save(reservationEntity);
+        return reservationMapper.toResponse(updatedReservationEntity);
+    }
+
+
 }

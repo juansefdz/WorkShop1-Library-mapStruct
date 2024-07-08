@@ -1,4 +1,5 @@
-package com.example.librosYa.application.mappers;
+package com.example.librosYa.application.mappers.Reservation;
+
 
 import com.example.librosYa.application.dto.request.ReservationRequest;
 import com.example.librosYa.application.dto.response.ReservationResponse;
@@ -12,13 +13,14 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ReservationMapper {
-    ReservationResponse toGetDTO(Reservation reservation);
+    Reservation toEntity (ReservationRequest reservationRequest);
 
     @InheritInverseConfiguration
-    Reservation toEntity(ReservationRequest request);
+    ReservationResponse toResponse (Reservation reservation);
 
-    List<ReservationResponse> toGetReservationList(List<Reservation> reservationList);
-    List<Reservation> toEntityList(List<ReservationRequest> reservationRequestList);
+    List<Reservation> toEntityList(List<ReservationRequest> request);
+
+    List<ReservationResponse> toResponseList(List<Reservation> entity);
 
     void updateEntityFromDto(ReservationRequest dto, @MappingTarget Reservation entity);
 }
