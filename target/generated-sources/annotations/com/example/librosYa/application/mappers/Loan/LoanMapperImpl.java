@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-07-08T18:22:41-0500",
+    date = "2024-07-08T18:33:00-0500",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.39.0.v20240620-1855, environment: Java 17.0.11 (Eclipse Adoptium)"
 )
 @Component
@@ -105,15 +105,6 @@ public class LoanMapperImpl implements LoanMapper {
         entity.setIdLoan( dto.getIdLoan() );
         entity.setReturnDate( dto.getReturnDate() );
         entity.setStatus( dto.getStatus() );
-        if ( dto.getUser() != null ) {
-            if ( entity.getUser() == null ) {
-                entity.setUser( UserEntity.builder().build() );
-            }
-            userRequestToUserEntity1( dto.getUser(), entity.getUser() );
-        }
-        else {
-            entity.setUser( null );
-        }
     }
 
     protected BookEntity bookRequestToBookEntity(BookRequest bookRequest) {
@@ -212,18 +203,5 @@ public class LoanMapperImpl implements LoanMapper {
         }
         mappingTarget.setPublicationYear( bookRequest.getPublicationYear() );
         mappingTarget.setTitleBook( bookRequest.getTitleBook() );
-    }
-
-    protected void userRequestToUserEntity1(UserRequest userRequest, UserEntity mappingTarget) {
-        if ( userRequest == null ) {
-            return;
-        }
-
-        mappingTarget.setEmail( userRequest.getEmail() );
-        mappingTarget.setFullName( userRequest.getFullName() );
-        mappingTarget.setIdUser( userRequest.getIdUser() );
-        mappingTarget.setPassword( userRequest.getPassword() );
-        mappingTarget.setRole( userRequest.getRole() );
-        mappingTarget.setUsername( userRequest.getUsername() );
     }
 }

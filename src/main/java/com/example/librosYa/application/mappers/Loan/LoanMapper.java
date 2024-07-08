@@ -12,11 +12,17 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface LoanMapper {
 
+
     LoanEntity toEntity(LoanRequest request);
-    @InheritInverseConfiguration
+     
+    @InheritInverseConfiguration 
     LoanResponse toResponse(LoanEntity loan);
+
     List<LoanResponse> toGetLoanList(List<LoanEntity> loanList);
+
     List<LoanEntity> toEntityList(List<LoanRequest> loanRequestList);
 
+    @Mapping(target = "user", ignore = true)  
     void updateEntityFromDto(LoanRequest dto, @MappingTarget LoanEntity entity);
 }
+
