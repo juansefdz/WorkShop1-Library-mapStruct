@@ -10,7 +10,7 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {UserMapper.class, BookMapper.class})
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ReservationMapper {
     ReservationResponse toGetDTO(Reservation reservation);
 

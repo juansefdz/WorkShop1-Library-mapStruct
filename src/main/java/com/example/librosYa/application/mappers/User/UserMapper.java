@@ -6,7 +6,7 @@ import com.example.librosYa.domain.entities.UserEntity;
 import org.mapstruct.*;
 
 import java.util.List;
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
     UserResponse toGetDTO(UserEntity user);
 

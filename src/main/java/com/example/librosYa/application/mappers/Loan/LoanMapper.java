@@ -7,7 +7,7 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {UserMapper.class, BookMapper.class})
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface LoanMapper {
     LoanResponse toGetDTO(Loan loan);
 
