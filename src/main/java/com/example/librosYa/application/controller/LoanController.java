@@ -2,7 +2,6 @@ package com.example.librosYa.application.controller;
 
 import com.example.librosYa.application.dto.request.LoanRequest;
 import com.example.librosYa.application.dto.response.LoanResponse;
-import com.example.librosYa.application.mappers.Loan.LoanMapper;
 import com.example.librosYa.infraestructure.abstract_services.ILoanService;
 import com.example.librosYa.util.exceptions.ResourceNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class LoanController {
 
     private final ILoanService loanService;
-    private final LoanMapper loanMapper;
+    
 
     /**
      * GET ALL Loans

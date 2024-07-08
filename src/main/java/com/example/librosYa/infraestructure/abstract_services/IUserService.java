@@ -1,8 +1,6 @@
 package com.example.librosYa.infraestructure.abstract_services;
 
-import com.example.librosYa.application.dto.request.ReservationRequest;
 import com.example.librosYa.application.dto.request.UserRequest;
-import com.example.librosYa.application.dto.response.ReservationResponse;
 import com.example.librosYa.application.dto.response.UserResponse;
 import com.example.librosYa.infraestructure.abstract_services.generic.CreateService.*;
 import org.springframework.stereotype.Service;

@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
 import java.util.List;
 @Entity(name = "book")
 @Data
@@ -35,10 +33,10 @@ public class BookEntity {
     private String isbn;
 
     @OneToMany(mappedBy = "book")
-    private List<Reservation> reservations;
+    private List<ReservationEntity> reservations;
 
     @OneToMany(mappedBy = "book")
-    private List<Loan> loans;
+    private List<LoanEntity> loans;
 
 
 }

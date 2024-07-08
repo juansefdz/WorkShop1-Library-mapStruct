@@ -8,26 +8,24 @@ import com.example.librosYa.domain.repositories.BookRepository;
 
 import com.example.librosYa.infraestructure.abstract_services.IBookService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class BookService implements IBookService {
-
+    @Autowired
     private final BookRepository bookRepository;
+    @Autowired
     private final BookMapper bookMapper;
 
-    public BookService(BookRepository bookRepository, BookMapper bookMapper) {
-        this.bookRepository = bookRepository;
-        this.bookMapper = bookMapper;
-    }
-
     @Override
-    @Transactional(readOnly = true)
     public Page<BookResponse> getAll(Pageable pageable) {
         return bookRepository.findAll(pageable).map(bookMapper::toResponse);
     }

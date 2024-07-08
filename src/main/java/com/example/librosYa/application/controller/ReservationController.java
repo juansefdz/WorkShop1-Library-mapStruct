@@ -2,7 +2,6 @@ package com.example.librosYa.application.controller;
 
 import com.example.librosYa.application.dto.request.ReservationRequest;
 import com.example.librosYa.application.dto.response.ReservationResponse;
-import com.example.librosYa.application.mappers.Reservation.ReservationMapper;
 import com.example.librosYa.infraestructure.abstract_services.IReservationService;
 import com.example.librosYa.util.exceptions.ResourceNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +11,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -25,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 public class ReservationController {
 
     private final IReservationService reservationService;
-    private final ReservationMapper reservationMapper;
 
     /**
      * GET ALL Reservations
@@ -140,5 +141,21 @@ public class ReservationController {
             @PathVariable Long reservationId) {
         ReservationResponse updatedReservation = reservationService.update(reservationId, request);
         return ResponseEntity.ok(updatedReservation);
+    }
+
+    /**
+     * ADICIONAL ENDPOINTS
+     */
+
+    @GetMapping("/users/{user_id}/reservations")
+    public ResponseEntity<List<ReservationResponse>> getAllReservationsByUserId(@PathVariable("user_id") Long userId) {
+        List<ReservationResponse> reservations = reservationService.getAllByUserId(userId);
+        return ResponseEntity.ok(reservations);
+    }
+
+    @GetMapping("/books/{book_id}/reservations")
+    public ResponseEntity<List<ReservationResponse>> getAllReservationsByBookId(@PathVariable("book_id") Long bookId) {
+        List<ReservationResponse> reservations = reservationService.getAllByBookId(bookId);
+        return ResponseEntity.ok(reservations);
     }
 }

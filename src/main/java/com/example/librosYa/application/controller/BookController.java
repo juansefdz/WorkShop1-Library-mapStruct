@@ -2,7 +2,6 @@ package com.example.librosYa.application.controller;
 
 import com.example.librosYa.application.dto.request.BookRequest;
 import com.example.librosYa.application.dto.response.BookResponse;
-import com.example.librosYa.application.mappers.Book.BookMapper;
 import com.example.librosYa.infraestructure.abstract_services.IBookService;
 import com.example.librosYa.util.exceptions.ResourceNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
 
     private final IBookService bookService;
-    private final BookMapper bookMapper;
+    
 
     /**
      * GET ALL Books

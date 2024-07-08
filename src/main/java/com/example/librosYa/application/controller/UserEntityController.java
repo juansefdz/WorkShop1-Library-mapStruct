@@ -2,7 +2,6 @@ package com.example.librosYa.application.controller;
 
 import com.example.librosYa.application.dto.request.UserRequest;
 import com.example.librosYa.application.dto.response.UserResponse;
-import com.example.librosYa.application.mappers.User.UserMapper;
 import com.example.librosYa.infraestructure.abstract_services.IUserService;
 import com.example.librosYa.util.exceptions.ResourceNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserEntityController {
 
     private final IUserService iUserService;
-    private final UserMapper userMapper;
 
     /**
      * GET ALL Users

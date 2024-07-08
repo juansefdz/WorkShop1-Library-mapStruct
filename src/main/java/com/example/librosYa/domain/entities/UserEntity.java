@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.awt.print.Book;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,8 +30,8 @@ public class UserEntity {
     private String role;
 
     @OneToMany(mappedBy = "user")
-    private List<Reservation> reservations;
+    private List<ReservationEntity> reservations;
 
     @OneToMany(mappedBy = "user")
-    private List<Loan> loans;
+    private List<LoanEntity> loans;
 }

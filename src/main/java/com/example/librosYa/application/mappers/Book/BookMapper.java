@@ -13,6 +13,7 @@ import java.util.List;
 public interface BookMapper {
 
     BookEntity toEntity (BookRequest bookRequest);
+    
     @InheritInverseConfiguration
     BookResponse toResponse(BookEntity book);
 

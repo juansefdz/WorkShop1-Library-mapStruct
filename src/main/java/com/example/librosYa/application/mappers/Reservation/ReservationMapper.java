@@ -3,7 +3,7 @@ package com.example.librosYa.application.mappers.Reservation;
 
 import com.example.librosYa.application.dto.request.ReservationRequest;
 import com.example.librosYa.application.dto.response.ReservationResponse;
-import com.example.librosYa.domain.entities.Reservation;
+import com.example.librosYa.domain.entities.ReservationEntity;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -13,16 +13,16 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ReservationMapper {
-    Reservation toEntity (ReservationRequest reservationRequest);
+    ReservationEntity toEntity (ReservationRequest reservationRequest);
 
     @InheritInverseConfiguration
-    ReservationResponse toResponse (Reservation reservation);
+    ReservationResponse toResponse (ReservationEntity reservation);
 
-    List<Reservation> toEntityList(List<ReservationRequest> request);
+    List<ReservationEntity> toEntityList(List<ReservationRequest> request);
 
-    List<ReservationResponse> toResponseList(List<Reservation> entity);
+    List<ReservationResponse> toResponseList(List<ReservationEntity> entity);
 
-    void updateEntityFromDto(ReservationRequest dto, @MappingTarget Reservation entity);
+    void updateEntityFromDto(ReservationRequest dto, @MappingTarget ReservationEntity entity);
 }
 
 
